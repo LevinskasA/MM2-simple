@@ -9,6 +9,7 @@
 */
 
 // Map as a class (MapTile[], PlayerPos)
+    // Custom set methods for Map.PlayerPos() can take pictureBox to move it in real time, while also storing info in Map. Makes saving states easier. Navigation between levels should be easier (pass a PlayerPos command so the method knows where to put the Player).
 // Declare Map List
 // Add Map method (Services.cs)
 // Shown Map method (Services.cs)
