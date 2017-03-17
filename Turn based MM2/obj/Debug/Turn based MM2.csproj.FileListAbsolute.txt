@@ -1,0 +1,14 @@
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Turn based MM2.exe.config
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Turn based MM2.exe
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Turn based MM2.pdb
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\obj\Debug\Turn based MM2.csprojResolveAssemblyReference.cache
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\obj\Debug\Turn_based_MM2.Form1.resources
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\obj\Debug\Turn_based_MM2.Properties.Resources.resources
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\obj\Debug\Turn based MM2.csproj.GenerateResource.Cache
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\obj\Debug\Turn based MM2.exe
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\obj\Debug\Turn based MM2.pdb
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Resources\path.png
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Resources\plantable.png
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Resources\wall.png
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Resources\Hexagon.png
+C:\Dirbam\KCS\Turn based MM2\Turn based MM2\bin\Debug\Resources\Maps\Map1.txt
