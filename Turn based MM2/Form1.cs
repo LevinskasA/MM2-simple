@@ -12,7 +12,8 @@
 // Declare Map List
 // Add Map method (Services.cs)
 // Shown Map method (Services.cs)
-// 
+// Move most logic to methods(Services.cs, Map.cs, Form1.cs) like IntendedPos
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,20 +70,20 @@ namespace Turn_based_MM2
         void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
             // if 'A' or 'a'    ASCII decimal
-            if (e.KeyChar == 65 || e.KeyChar == 97)
+            if (e.KeyChar == Constants.KEYCHAR_A_UPPERCASE || e.KeyChar == Constants.KEYCHAR_A_LOWERCASE)
             {
                 //pictureBox1.Location.Offset(-25, 0); kodel neveikė?
                 MovePictureBox(ref pictureBox1, -Constants.PIXELS_PER_MOVE, true);
             }   // 'D' or 'd'
-            else if (e.KeyChar == 68 || e.KeyChar == 100)
+            else if (e.KeyChar == Constants.KEYCHAR_D_UPPERCASE || e.KeyChar == Constants.KEYCHAR_D_LOWERCASE)
             {
                 MovePictureBox(ref pictureBox1, Constants.PIXELS_PER_MOVE, true);
             }   // 'S' or 's'
-            else if (e.KeyChar == 83 || e.KeyChar == 115)
+            else if (e.KeyChar == Constants.KEYCHAR_S_UPPERCASE || e.KeyChar == Constants.KEYCHAR_S_LOWERCASE)
             {
                 MovePictureBox(ref pictureBox1, Constants.PIXELS_PER_MOVE, false);
             }   // 'W' or 'w'
-            else if (e.KeyChar == 87 || e.KeyChar == 119)
+            else if (e.KeyChar == Constants.KEYCHAR_W_UPPERCASE || e.KeyChar == Constants.KEYCHAR_W_LOWERCASE)
             {
                 MovePictureBox(ref pictureBox1, -Constants.PIXELS_PER_MOVE, false);
             }
@@ -94,6 +95,7 @@ namespace Turn_based_MM2
             //    InitializePictureBox();
             //}
         }
+        [Obsolete("Used for testing.")]
         /// <summary>
         /// Displays passed string.
         /// </summary>
@@ -102,6 +104,7 @@ namespace Turn_based_MM2
         {
             MessageBox.Show(display);
         }
+        [Obsolete("Used for testing.")]
         /// <summary>
         /// Displays passed char.
         /// </summary>
@@ -158,6 +161,7 @@ namespace Turn_based_MM2
         }
 
         // is this one hard to read?
+        [Obsolete("Shouldn't be needed in the future.")]
         /// <summary>
         /// Figures out if pictureBox is moving inside the window.
         /// </summary>
@@ -191,7 +195,13 @@ namespace Turn_based_MM2
             }
             return canMove;
         }
-
+        /// <summary>
+        /// Checks if intended tile to move to is available.
+        /// </summary>
+        /// <param name="currentLocation"></param>
+        /// <param name="pixelsToMove"></param>
+        /// <param name="xAxis"></param>
+        /// <returns></returns>
         bool CanMoveMapTile(Point currentLocation, int pixelsToMove, bool xAxis)
         {
             Point intendedLocation;
