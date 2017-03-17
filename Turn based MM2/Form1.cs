@@ -1,7 +1,7 @@
 ﻿/* To do:
- * Logika ekrano ribom+++
- * Map'as++ (papildomos ribos, CanMove() metodas tikrintu vienu metu.+++
- * STUCK. Passing MapTile[,] to CanMoveMapTile logic.
+ * +Logika ekrano ribom+++
+ * +Map'as++ (papildomos ribos, CanMove() metodas tikrintu vienu metu.+++
+ * +STUCK. Passing MapTile[,] to CanMoveMapTile logic.
  * Rewrite Map as a class.
  * Rewrite Map as a class.
  * Enemies (with AI)
