@@ -21,6 +21,7 @@
 
 // Rewrite: 
 // CanMoveMapTile for multiple maps.
+// 
 
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace Turn_based_MM2
     public partial class Form1 : Form
     {
         List<Map> maps = new List<Map>();
+        List<EnemyBasic> enemiesBasic = new List<EnemyBasic>();
 
         public Form1()
         {
@@ -58,8 +60,10 @@ namespace Turn_based_MM2
 
             //Load map file
             string execDirectory = GetExecLocation();
-            string mapFilePath = Path.Combine(execDirectory, Constants.FILEPATH_MAP1);
+            string mapFilePath = Path.Combine(execDirectory, Constants.FILEPATH_MAPS_MAP1);
             FileLoadMap(mapFilePath);
+            // Load enemies
+            //FileLoadEnemies(Constants.FILEPATH_ENEMIES_MAP1);
             // so keys reach Form1 before they reach control; 
             this.KeyPreview = true;
             // Kviecia metoda handlindamas keyPress'a?      Seems so
@@ -142,6 +146,8 @@ namespace Turn_based_MM2
                     pictureBox.Location = new Point(x, y + pixelsToMove);
                 }
             }
+
+            EnemyMovementTick();
 
         }
         /// <summary>
@@ -274,7 +280,9 @@ namespace Turn_based_MM2
                 // Sets player position to starting one.
                 MovePictureBox(ref pictureBox1, xStartingPos, yStartingPos);
                 // Initializes MapTiles while file has readable lines.
-                MapTile[,] mapTiles = new MapTile[xMapBoundary, yMapBoundary];
+                Map map = new Map(startingPoint);
+                map.MapTiles = new MapTile[xMapBoundary, yMapBoundary];
+                
                 string line = null;
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -282,10 +290,8 @@ namespace Turn_based_MM2
                     //  { bool Passable},{bool Plantable}
                     string[] tileInfo = line.Split(',');
                     DeclareMapTile(Convert.ToInt32(tileInfo[0]), Convert.ToInt32(tileInfo[1]),
-                        Convert.ToBoolean(tileInfo[2]), Convert.ToBoolean(tileInfo[3]), mapTiles);
+                        Convert.ToBoolean(tileInfo[2]), Convert.ToBoolean(tileInfo[3]), map.MapTiles);
                 }
-                Map map = new Map(startingPoint);
-                map.MapTiles = mapTiles;
                 maps.Add(map);
             }
 
@@ -360,20 +366,50 @@ namespace Turn_based_MM2
             {
                 if (plantable)
                 {
-                    return @"\Resources\plantable.png";
+                    return Constants.FILEPATH_RESOURCES_PLANTABLE;
                 }
                 else
                 {
-                    return @"\Resources\path.png";
+                    return Constants.FILEPATH_RESOURCES_PATH;
                 }
             }
             else
             {
-                return @"\Resources\wall.png";
+                return Constants.FILEPATH_RESOURCES_WALL;
             }
         }
 
-        
+        private void FileLoadEnemies(string enemiesFilePath)
+        {
+            using (StreamReader reader = new StreamReader(enemiesFilePath))
+            {
+                string initialInfo = reader.ReadLine();
+                int enemiesAmount = Convert.ToInt32(initialInfo);
+                for (int i = 0; i < enemiesAmount; i++)
+                {
+                    EnemyBasic enemy = new EnemyBasic();
+                    int enemyMovementTicks = Convert.ToInt32(reader.ReadLine());
+                    Tuple<int, int>[] mapTileCoords = new Tuple<int, int>[enemyMovementTicks];
+                    for (int j = 0; j < enemyMovementTicks; j++)
+                    {
+                        string line = reader.ReadLine();
+                        string[] values = line.Split(',');
+                        int[] coords = new int[] { Convert.ToInt32(values[0]), Convert.ToInt32(values[1]) };
+                        mapTileCoords[j] = Tuple.Create<int, int>(coords[0], coords[1]);
+                    }
+                    enemy.setMovementLogic(enemyMovementTicks, mapTileCoords);
+                    enemiesBasic.Add(enemy);
+                }
+            }
+            
+        }
+
+        private void EnemyMovementTick()
+        {
+
+        }
+
+
 
 
 

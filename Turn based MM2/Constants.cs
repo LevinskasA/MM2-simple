@@ -25,10 +25,16 @@ namespace Turn_based_MM2
         public const int KEYCHAR_W_UPPERCASE = 87;
         public const int KEYCHAR_W_LOWERCASE = 119;
         // File paths
-        public const string FILEPATH_MAP1 = @"\Resources\Maps\Map1.txt";
+        public const string FILEPATH_MAPS_MAP1 = @"\Resources\Maps\Map1.txt";
         public const string FILEPATH_HEXAGONGRASS = @"Resources\HexagonGrass.png";
         public const string FILEPATH_HEXAGONBLANK = @"Resources\HexagonBlank.png";
         public const string FILEPATH_HEXAGONPLANTABLE = @"Resources\HexagonPlantable.png";
+        public const string FILEPATH_ENEMIES_MAP1 = @"\Resources\Enemies\Map1.txt";
+        public const string FILEPATH_ENEMY_HEXAGON_BASIC_GRASS = @"Resources\HexagonGrass.png";
+        public const string FILEPATH_RESOURCES_WALL = @"\Resources\wall.png";
+        public const string FILEPATH_RESOURCES_PATH = @"\Resources\path.png";
+        public const string FILEPATH_RESOURCES_PLANTABLE = @"\Resources\plantable.png";
+
 
     }
 }
