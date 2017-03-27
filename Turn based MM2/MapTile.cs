@@ -16,7 +16,7 @@ namespace Turn_based_MM2
     {
         public PictureBox PicBox { get; private set; }
         public bool Passable { get; private set; }
-        bool Plantable { get; }
+        public bool Plantable { get; private set; }
 
         /// <summary>
         /// The PictureBox inside still needs to be declared (SetPos(), SetImage()) then added to this.Controls.Add(MapTile.PicBox);

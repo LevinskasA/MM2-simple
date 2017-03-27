@@ -9,10 +9,10 @@ namespace Turn_based_MM2
 {
     class Map
     {
-        MapTile[,] MapTiles;
-        Point PlayerPos { get; set; }
+        public MapTile[,] MapTiles { get; set; }
+        public Point PlayerPos { get; set; }
 
-        Map(Point playerPos)
+        public Map(Point playerPos)
         {
             PlayerPos = playerPos;
         }

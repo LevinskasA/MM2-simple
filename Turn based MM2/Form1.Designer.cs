@@ -35,7 +35,6 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::Turn_based_MM2.Properties.Resources.Hexagon;
             this.pictureBox1.Location = new System.Drawing.Point(25, 25);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(100, 100);

@@ -2,18 +2,25 @@
  * +Logika ekrano ribom+++
  * +Map'as++ (papildomos ribos, CanMove() metodas tikrintu vienu metu.+++
  * +STUCK. Passing MapTile[,] to CanMoveMapTile logic.
- * Rewrite Map as a class.
- * Rewrite Map as a class.
+ * +Rewrite Map as a class.
+ * +Rewrite Map as a class.
  * Enemies (with AI)
  * Rewrite Player as a class (possible multiplayer)
 */
 
 // Map as a class (MapTile[], PlayerPos)
-    // Custom set methods for Map.PlayerPos() can take pictureBox to move it in real time, while also storing info in Map. Makes saving states easier. Navigation between levels should be easier (pass a PlayerPos command so the method knows where to put the Player).
-// Declare Map List
+    // Custom set methods for Map.PlayerPos() can take pictureBox to move it in real time, 
+    //while also storing info in Map. Makes saving states easier. Navigation between levels should be easier
+    //(pass a PlayerPos command so the method knows where to put the Player).
+// +Declare Map List
 // Add Map method (Services.cs)
 // Shown Map method (Services.cs)
 // Move most logic to methods(Services.cs, Map.cs, Form1.cs) like IntendedPos
+// Declaring player in a method.
+// Visual improvement when player is on plantable tile.
+
+// Rewrite: 
+// CanMoveMapTile for multiple maps.
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +38,7 @@ namespace Turn_based_MM2
 {
     public partial class Form1 : Form
     {
-        List<Map> maps;
+        List<Map> maps = new List<Map>();
 
         public Form1()
         {
@@ -40,24 +47,24 @@ namespace Turn_based_MM2
             // changes pictureBox1 size (makes it so win10 doesn't mess with sizes)
             Size size = new Size(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT);
             pictureBox1.Size = size;
-            // moves to top left    
+            pictureBox1.Image = Image.FromFile(Constants.FILEPATH_HEXAGONGRASS);
+            // moves player to top left    
             // Can change when loading map if required.
-            // Seems like a good idea to implement before it's even needed
+            // +Seems like a good idea to implement before it's even needed
             Point pointBlank = new Point(0,0);
             pictureBox1.Location = pointBlank;
             // deletes background
-            //pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.BackColor = Color.Transparent;
 
             //Load map file
             string execDirectory = GetExecLocation();
-            string mapFilePath = Path.Combine(execDirectory, @"\Resources\Maps\Map1.txt");
-            FileLoadMap(mapFilePath, out mapTiles);
+            string mapFilePath = Path.Combine(execDirectory, Constants.FILEPATH_MAP1);
+            FileLoadMap(mapFilePath);
             // so keys reach Form1 before they reach control; 
             this.KeyPreview = true;
             // Kviecia metoda handlindamas keyPress'a?      Seems so
             // kodel += ?
             this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
-
             
 
         }
@@ -122,7 +129,7 @@ namespace Turn_based_MM2
         /// <param name="xAxis"></param>
         void MovePictureBox(ref PictureBox pictureBox, int pixelsToMove, bool xAxis)
         {
-            if (CanMove(pictureBox1, pixelsToMove, xAxis, mapTiles))
+            if (CanMove(pictureBox1, pixelsToMove, xAxis))
             {
                 int x = pictureBox.Location.X;
                 int y = pictureBox.Location.Y;
@@ -153,7 +160,7 @@ namespace Turn_based_MM2
         /// <param name="pixelsToMove"></param>
         /// <param name="xAxis"></param>
         /// <returns></returns>
-        bool CanMove(PictureBox pictureBox, int pixelsToMove, bool xAxis, MapTile[,] mapTiles)
+        bool CanMove(PictureBox pictureBox, int pixelsToMove, bool xAxis)
         {
             // more logic in the future.
 
@@ -217,10 +224,19 @@ namespace Turn_based_MM2
 
             int intendedX = intendedLocation.X / Constants.TILE_WIDTH;
             int intendedY = intendedLocation.Y / Constants.TILE_HEIGHT;
+            MapTile intendedMapTile = maps[0].MapTiles[intendedX, intendedY];
 
             //map tile
-
-            return mapTiles[intendedX, intendedY].Passable;
+            bool isMoveAvailable = intendedMapTile.Passable;
+            if (isMoveAvailable && intendedMapTile.Plantable)
+            {
+                pictureBox1.Image = Image.FromFile(Constants.FILEPATH_HEXAGONPLANTABLE);
+            }
+            else
+            {
+                pictureBox1.Image = Image.FromFile(Constants.FILEPATH_HEXAGONGRASS);
+            }
+            return isMoveAvailable;
             // rewrite Player positioning ? While Player.Size == MapTile.Size it's ok.
         }
         /// <summary>
@@ -242,7 +258,7 @@ namespace Turn_based_MM2
         /// Loads Map from passed filePath.
         /// </summary>
         /// <param name="filePath"></param>
-        void FileLoadMap(string filePath, out MapTile[,] mapTiles)
+        void FileLoadMap(string filePath)
         {
             using (StreamReader reader = new StreamReader(filePath))
             {
@@ -254,10 +270,11 @@ namespace Turn_based_MM2
                 // Reads starting Player Pos
                 int xStartingPos, yStartingPos;
                 FileGetStartingPlayerPos(out xStartingPos, out yStartingPos, reader);
+                Point startingPoint = new Point(xStartingPos * Constants.TILE_WIDTH, yStartingPos * Constants.TILE_HEIGHT);
                 // Sets player position to starting one.
                 MovePictureBox(ref pictureBox1, xStartingPos, yStartingPos);
                 // Initializes MapTiles while file has readable lines.
-                mapTiles = new MapTile[xMapBoundary, yMapBoundary];
+                MapTile[,] mapTiles = new MapTile[xMapBoundary, yMapBoundary];
                 string line = null;
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -267,6 +284,9 @@ namespace Turn_based_MM2
                     DeclareMapTile(Convert.ToInt32(tileInfo[0]), Convert.ToInt32(tileInfo[1]),
                         Convert.ToBoolean(tileInfo[2]), Convert.ToBoolean(tileInfo[3]), mapTiles);
                 }
+                Map map = new Map(startingPoint);
+                map.MapTiles = mapTiles;
+                maps.Add(map);
             }
 
         }
@@ -358,7 +378,7 @@ namespace Turn_based_MM2
 
 
 
-
+        [Obsolete("Intended only for testing.")]
         /// <summary>
         /// for testing purposes
         /// </summary>
